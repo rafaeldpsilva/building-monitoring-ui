@@ -7,8 +7,8 @@ const TokenService = {
   tokens_save : "tokens/save",
   tokens_revoke : "tokens/revoke",
 
-  async getTokens(url, token) {
-    const path = url+this.tokens+'?token='+token
+  async getTokens(url) {
+    const path = url+this.tokens
     try{
       const response = await axios.get(path);
       return response.data.tokens
@@ -17,7 +17,7 @@ const TokenService = {
     };
   },
 
-  async postGenerateToken(url, token, name, listOfResources, dataAggregation, timeAggregation, embargo, expirationInMinutes) {
+  async postGenerateToken(url, name, listOfResources, dataAggregation, timeAggregation, embargo, expirationInMinutes) {
     const payload = {
       "name": name,
       "list_of_resources": listOfResources,
@@ -26,7 +26,7 @@ const TokenService = {
       "embargo": embargo,
       "exp": expirationInMinutes
     }
-    const path = url+this.tokens_generate+'?token='+token
+    const path = url+this.tokens_generate
     try{
       const response = await axios.post(path,payload);
       return response.data.token
@@ -35,11 +35,11 @@ const TokenService = {
     };
   },
   
-  async postCheckToken(url, token, check_token) {
+  async postCheckToken(url, check_token) {
     const payload = {
       "token": check_token
     }
-    const path = url+this.tokens_check+'?token='+token
+    const path = url+this.tokens_check
     try{
       const response = await axios.post(path,payload);
       return response.data
@@ -48,11 +48,11 @@ const TokenService = {
     };
   },
 
-  async postSaveToken(url, token, save_token) {
+  async postSaveToken(url, save_token) {
     const payload = {
       "token": save_token
     }
-    const path = url+this.tokens_save+'?token='+token
+    const path = url+this.tokens_save
     try{
       const response = await axios.post(path,payload);
       return {"token": response.data.token, "datetime" : response.data.datetime, "active": response.data.active}
@@ -61,11 +61,11 @@ const TokenService = {
     };
   },
   
-  async postRevokeToken(url, token, revoke_token) {
+  async postRevokeToken(url, revoke_token) {
     const payload = {
       "token": revoke_token
     }
-    const path = url+this.tokens_revoke+'?token='+token
+    const path = url+this.tokens_revoke
     try{
       const response = await axios.post(path,payload);
       return {"token": response.data.token, "datetime" : response.data.datetime, "active": response.data.active}

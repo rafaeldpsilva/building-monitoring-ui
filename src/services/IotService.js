@@ -2,10 +2,11 @@ import axios from 'axios';
 
 const IotService = {
   iots: "iots",
+  iot_values: "iot/values",
   iots_historic: "iot/historic",
 
-  async getIots(url, token) {
-    const path = url + this.iots + '?token=' + token
+  async getIots(url) {
+    const path = url + this.iots
     try {
       const response = await axios.get(path);
       return response.data.iots
@@ -13,11 +14,23 @@ const IotService = {
       console.error(error);
     };
   },
-  async getIotHistoric(url, token, iot) {
+  async getIotValues(url, iot) {
     let payload = {
       "iot": iot
     }
-    const path = url + this.iots_historic + '?token=' + token
+    const path = url + this.iot_values
+    try {
+      const response = await axios.post(path, payload);
+      return response.data
+    } catch (error) {
+      console.error(error);
+    };
+  },
+  async getIotHistoric(url, iot) {
+    let payload = {
+      "iot": iot
+    }
+    const path = url + this.iots_historic
     try {
       const response = await axios.post(path, payload);
       return response.data['historic']
