@@ -63,7 +63,7 @@ export default {
     intervalChange(){
       this.second = !this.second;
       if (this.second){
-        this.interval = 1;
+        this.interval = 5;
         this.unit = 's';
       }else{
         this.interval = 1;

@@ -125,7 +125,7 @@ export default {
     this.iotsList = await this.getIots()
     this.savedConfigurations();
     if (this.isACConfigured) {
-      const status = await DivisionsService.postACStatus(localStorage.getItem("uri"), localStorage.getItem("token"), this.division.id)
+      const status = await DivisionsService.postACStatus(localStorage.getItem("uri"), this.division.id)
       if (status == "off") {
         this.ac_status = false
       }
@@ -141,11 +141,11 @@ export default {
       for (var i = 0; i < this.iots_selected.length; i++) {
         aux.push(this.iots_selected[i]['name'])
       }
-      await DivisionsService.postDivisionUpdate(localStorage.getItem("uri"), localStorage.getItem("token"), this.division.id, this.division.name, aux, this.outdoorTemperature['name'], this.temperature['name'], this.humidity['name'], this.light['name'])
+      await DivisionsService.postDivisionUpdate(localStorage.getItem("uri"), this.division.id, this.division.name, aux, this.outdoorTemperature['name'], this.temperature['name'], this.humidity['name'], this.light['name'])
       this.loading = false;
     },
     async getIots() {
-      var list = await IotService.getIots(localStorage.getItem("uri"), localStorage.getItem("token"))
+      var list = await IotService.getIots(localStorage.getItem("uri"))
       for (var i = 0; i < list.length; i++) {
         var aux = [];
         for (var j = 0; j < list[i]['values'].length; j++) {
@@ -213,7 +213,7 @@ export default {
   width: 850px;
   margin: auto;
   padding: 20px 30px;
-  background-color: #fff;
+  background-color: #f5f5f5;
   border-radius: 10px;
   /* Adjust the value to control the roundness of the corners */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);

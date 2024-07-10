@@ -23,11 +23,8 @@
         id="iconSidenav"
       ></i>
       <router-link class="m-0 navbar-brand" to="/">
-        <img
-          src="../../assets/img/logo_color.svg"
-          
-        />
-        <span class="ms-2 font-weight-bold me-2">TIoCPS</span>
+        <img src="https://www.gecad.isep.ipp.pt/wp-content/uploads/2023/06/cropped-GECAD_LOGO_ICON-192x192.png" />
+        <span class="ms-2 font-weight-bold me-2">Building Monitoring</span>
       </router-link>
     </div>
     <hr class="mt-0 horizontal dark" />

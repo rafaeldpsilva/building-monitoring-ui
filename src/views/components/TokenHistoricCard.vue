@@ -71,7 +71,7 @@ export default {
   },
   methods: {
     async loadTokenList (){
-      this.tokenlist = await TokenService.getTokens(localStorage.getItem("uri"),localStorage.getItem("token"))
+      this.tokenlist = await TokenService.getTokens(localStorage.getItem("uri"))
       for(let i = 0; i < this.tokenlist.length; i++){
         
         var creationDate = new Date(this.tokenlist[i]['datetime']);

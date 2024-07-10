@@ -3,12 +3,13 @@
     <div v-if="show" class="modal-mask" @keydown.esc="$emit('close')">
       <div class="modal-container">
         <div class="modal-header">
-          <h3 name="header">{{iot}}</h3>
+          <h3 name="header">{{iot['name']}}</h3>
         </div>
 
         <div class="modal-body">
           <div class="input-group">
-            <iot-historic :iot="iot"/>
+            <iot-values :iot="iot"/>
+            <!--iot-historic :iot="iot"/-->
           </div>
         </div>
 
@@ -22,7 +23,8 @@
 <script>
 
 import ArgonButton from "@/components/ArgonButton.vue";
-import IotHistoric from "./IotHistoric.vue";
+//import IotHistoric from "./IotHistoric.vue";
+import IotValues from "./IotValues.vue";
 
 export default {
   name: "iot-modal-dialog",
@@ -31,12 +33,13 @@ export default {
     iot: String,
   },
   components: {
-    IotHistoric,
+    //IotHistoric,
+    IotValues,
     ArgonButton,
   },
 }
 </script>
-<style>
+<style scoped>
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -53,7 +56,7 @@ export default {
   width: 850px;
   margin: auto;
   padding: 20px 30px;
-  background-color: #fff;
+  background-color: #f5f5f5;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;

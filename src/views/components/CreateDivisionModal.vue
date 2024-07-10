@@ -64,7 +64,7 @@ export default {
   },
   async mounted() {
     this.clear()
-    this.iotsList = await IotService.getIots(localStorage.getItem("uri"), localStorage.getItem("token"))
+    this.iotsList = await IotService.getIots(localStorage.getItem("uri"))
   },
   methods: {
     clear() {
@@ -87,7 +87,7 @@ export default {
         iots: aux,
       }
 
-      await DivisionsService.postCreateDivision(localStorage.getItem("uri"), localStorage.getItem("token"), this.name, aux)
+      await DivisionsService.postCreateDivision(localStorage.getItem("uri"), this.name, aux)
       this.$emit("add-new-division", this.newDivision);
       this.close();
     },
@@ -116,7 +116,7 @@ export default {
   width: 850px;
   margin: auto;
   padding: 20px 30px;
-  background-color: #fff;
+  background-color: #f5f5f5;
   border-radius: 10px;
   /* Adjust the value to control the roundness of the corners */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);

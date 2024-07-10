@@ -17,6 +17,7 @@ import {
 import VChart, { THEME_KEY } from 'vue-echarts';
 import { ref, defineComponent } from 'vue';
 import BuildingService from "../../../services/BuildingService.js"
+
 use([
   CanvasRenderer,
   LineChart,
@@ -57,16 +58,17 @@ export default defineComponent({
       this.option.series[1].data = overview[2].slice(6);
       this.option.series[2].data = overview[3].slice(6);
     }
-
+    console.log(this.nowHour.toString())
+    
     let i = 0;
     while (i < 6) {
-      this.option.xAxis.data.push(this.nowHour + i + 1)
+      this.option.xAxis.data.push(this.nowHour + i)
       this.option.series[0].data.push(null)
       this.option.series[1].data.push(null)
       this.option.series[2].data.push(null)
       i++;
     }
-
+    
     const forecast = JSON.parse(localStorage.getItem("forecast-overview"))
     if (forecast.length != 2) {
       await this.loadBuildingForecast(this.nowHour);
@@ -78,7 +80,7 @@ export default defineComponent({
   },
   methods: {
     async loadBuildingForecast(hour) {
-      await BuildingService.getForecastConsumption(localStorage.getItem("uri"), localStorage.getItem("token")).then(forecast => {
+      await BuildingService.getForecastConsumption(localStorage.getItem("uri")).then(forecast => {
         let consumption = [];
         let hours = [];
         let i = 0;
@@ -99,22 +101,23 @@ export default defineComponent({
       });
     },
     async loadBuildingOverview() {
-      await BuildingService.getHistoric(localStorage.getItem("uri"), localStorage.getItem("token")).then(historic => {
+      await BuildingService.getOverview(localStorage.getItem("uri")).then(historic => {
         let consumption = [];
         let generation = [];
         let flexibility = [];
         let hours = [];
         let i = 0;
         while (i < historic.length) {
-          consumption.push(historic[i][0].toFixed(2));
-          generation.push(historic[i][1].toFixed(2));
-          flexibility.push(historic[i][2].toFixed(2));
-          var dateObject = new Date(historic[i][3]);
+          consumption.push(historic[i][1].toFixed(2));
+          generation.push(historic[i][2].toFixed(2));
+          flexibility.push(historic[i][3].toFixed(2));
+          var dateObject = new Date(historic[i][0]);
           hours.push(dateObject.getUTCHours());
           i++;
         }
         this.loading = false;
-        this.option.xAxis.data = hours.slice(6);
+        this.option.xAxis.data = hours.slice(5);
+        console.log(hours)
         this.option.series[0].data = consumption.slice(6);
         this.option.series[1].data = generation.slice(6);
         this.option.series[2].data = flexibility.slice(6);
@@ -186,7 +189,7 @@ export default defineComponent({
           data: []
         },
         {
-          data: [null, null, null, null, null, null, null, 1320, 1330, 1210, 1230, 1190, 110, 130],
+          data: [],
           type: 'line',
           showSymbol: false,
           lineStyle: {

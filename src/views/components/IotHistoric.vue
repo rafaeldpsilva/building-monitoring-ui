@@ -46,7 +46,7 @@ export default defineComponent({
     },
     methods: {
         async loadIotHistoric() {
-            const historic = await IotService.getIotHistoric(localStorage.getItem("uri"), localStorage.getItem("token"), this.iot)
+            const historic = await IotService.getIotHistoric(localStorage.getItem("uri"), this.iot)
             
             var hours = [];
             var iot_historic = [];

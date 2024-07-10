@@ -45,7 +45,7 @@ export default defineComponent({
     await this.updateMonitoringValues()
     this.monitoringInterval = setInterval(() => {
       this.updateMonitoringValues();
-    }, 1000);
+    }, 5000);
   },
   beforeUnmount(){
     clearInterval(this.monitoringInterval);
@@ -54,7 +54,7 @@ export default defineComponent({
       async updateMonitoringValues() {
         var now = new Date();
         var data = now.getHours()+':' + now.getMinutes()+':' + now.getSeconds()
-        this.energyNow = await BuildingService.getEnergyNow(localStorage.getItem("uri"),localStorage.getItem("token"));
+        this.energyNow = await BuildingService.getEnergyNow(localStorage.getItem("uri"));
         this.updateData(data, this.energyNow['consumption'],this.energyNow['generation'],this.energyNow['flexibility'])
       },
       updateData(data, consumption, generation, flexibility){

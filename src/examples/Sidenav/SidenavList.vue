@@ -104,7 +104,7 @@ export default {
   },
   data() {
     return {
-      title: "TIoCPS",
+      title: "Building Monitoring",
       controls: "dashboardsExamples",
       isActive: "active"
     };

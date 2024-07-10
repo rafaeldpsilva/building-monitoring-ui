@@ -1,23 +1,24 @@
 <template>
   <div class="card">
     <div class="card-header pb-0">
-      <h6><i class="fas fa-network-wired"></i> Your IoT's</h6>
+      <h6><i class="fas fa-wifi"></i> Shared IoT's</h6>
+      <p v-if="this.iotsList.length == 0" class="text-sm">
+          <span class="font-weight-bold">You don't have shared IoTs :/</span>
+        </p>
     </div>
     <div class="card-body px-0 pt-0 pb-2">
       <div class="table-responsive p-0">
-        <table class="table align-items-center mb-0">
+        <table v-if="this.iotsList.length != 0" class="table align-items-center mb-0">
           <thead>
             <tr>
               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Type</th>
               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Values</th>
               <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Demand Response</th>
-              <!--th class="text-secondary opacity-7"></th-->
             </tr>
           </thead>
           <tbody>
-            <tr v-for="iot in limitedIotsList" :key="iot.name" @click="showIotModal(iot)">
+            <tr v-for="iot in iotsList" :key="iot.name" @click="showIotModal(iot)">
               <td>
                 <div class="d-flex px-2 py-1">
                   <div>
@@ -67,25 +68,13 @@
               <td class="align-middle text-center text-sm">
                 <span class="badge badge-sm bg-gradient-success">Online</span>
               </td>
-              <td class="align-middle text-center">
-                <input disabled type="checkbox" id="checkbox" v-model=iot.control.demandresponse />
-              </td>
-              <!--td class="align-middle">
-                <span class="text-secondary text-xs font-weight-bold">Edit</span>
-              </td-->
             </tr>
           </tbody>
         </table>
-        <div class="text-center mt-3">
-          <button @click="toggleShowMore" class="btn btn-neutral">
-            <i :class="showMore ? 'fas fa-angle-up' : 'fas fa-angle-down'"></i>
-          </button>
-        </div>
       </div>
     </div>
   </div>
   <Teleport to="body">
-      <!-- use the modal component, pass in the prop -->
       <iot-modal :show="isModalVisible" :iot="selectedIot" @close="isModalVisible = false"></iot-modal>
     </Teleport>
 </template>
@@ -100,25 +89,13 @@ export default {
     IotModal
   },
   async mounted() {
-    const iots = JSON.parse(localStorage.getItem("iots"))
-    if (iots.length == 0) {
-      await this.loadIotsList();
-    } else {
-      this.iotsList = iots;
-    }
+    await this.loadIotsList();
   },
   data() {
     return {
       selectedIot: null,
       isModalVisible: false,
-      iotsList: [],
-      showMore: false,
-      initialLimit: 5
-    }
-  },
-  computed: {
-    limitedIotsList() {
-      return this.showMore ? this.iotsList : this.iotsList.slice(0, this.initialLimit);
+      iotsList: []
     }
   },
   methods: {
@@ -127,20 +104,25 @@ export default {
       this.isModalVisible = true;
     },
     async loadIotsList() {
-      var list = await IotService.getIots(localStorage.getItem("uri"))
-      for(var i = 0; i< list.length; i++){
-        var aux = [];
-        for (var j = 0; j< list[i]['values'].length; j++){
-          aux.push(list[i]['values'][j]['type'])
+      var response = await IotService.getIots(localStorage.getItem("uri"))
+      let list = []
+      for(var i = 0; i< response.length; i++){
+        if (response[i]['connectionmode']=='virtual'){
+          console.log(response[i])
+          list.push(response[i])
         }
-        list[i]['values'] = aux;
       }
+      for(i = 0; i< list.length; i++){
+       
+          var aux = [];
+          console.log(list[i])
+          for (var j = 0; j< list[i]['values'].length; j++){
+              aux.push(list[i]['values'][j]['type'])
+          }
+          list[i]['values'] = aux;
+        }
       this.iotsList = list
-      localStorage.setItem("iots", JSON.stringify(this.iotsList))
     },
-    toggleShowMore() {
-      this.showMore = !this.showMore;
-    }
   }
 };
 </script>

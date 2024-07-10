@@ -80,7 +80,7 @@ export default defineComponent({
       }
     },
     async loadBatteriesHistoric(batteries) {
-      const historic = await BatteryService.getBatteriesHistoric(localStorage.getItem("uri"), localStorage.getItem("token"))
+      const historic = await BatteryService.getBatteriesHistoric(localStorage.getItem("uri"))
 
       let stored_energy = [];
       let hours = [];

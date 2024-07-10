@@ -56,7 +56,7 @@ export default defineComponent({
   },
   methods: {  
     async loadBuildingForecast() {
-      await BuildingService.getForecastConsumption(localStorage.getItem("uri"),localStorage.getItem("token")).then( forecast => {
+      await BuildingService.getForecastConsumption(localStorage.getItem("uri")).then( forecast => {
         let consumption = [];
         let hours = [];
         let i = 0;

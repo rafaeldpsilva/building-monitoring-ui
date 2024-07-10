@@ -156,7 +156,7 @@ export default {
   },
   methods: {
     async loadBatteryList() {
-      const batteries = await BatteryService.getBatteries(localStorage.getItem("uri"), localStorage.getItem("token"))
+      const batteries = await BatteryService.getBatteries(localStorage.getItem("uri"))
       var list = []
       for (var i = 0; i < batteries.length; i++) {
         var status = "on hold"

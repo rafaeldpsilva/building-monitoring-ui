@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     async getDivisions() {
-      this.divisionList = await DivisionService.getDivisions(localStorage.getItem("uri"), localStorage.getItem("token"))
+      this.divisionList = await DivisionService.getDivisions(localStorage.getItem("uri"))
     },
     handleAddDivision(newDivision) {
       this.divisionList.push(newDivision)

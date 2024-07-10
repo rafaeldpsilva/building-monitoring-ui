@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     async sendCharge() {
-      await BatteryService.postChargeBattery(localStorage.getItem("uri"), localStorage.getItem("token"), this.battery, -this.watts)
+      await BatteryService.postChargeBattery(localStorage.getItem("uri"), this.battery, -this.watts)
       this.$emit('close')
     }
   }
@@ -66,7 +66,7 @@ export default {
   width: 350px;
   margin: auto;
   padding: 20px 30px;
-  background-color: #fff;
+  background-color: #f5f5f5;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
