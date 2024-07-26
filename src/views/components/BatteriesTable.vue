@@ -14,8 +14,8 @@
               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Capacity (Wh)</th>
               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
-              <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Rate</th>
-              <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">State of Charge</th>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Rate (W)</th>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">State of Charge (%)</th>
               <th></th>
             </tr>
           </thead>

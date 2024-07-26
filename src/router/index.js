@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import Dashboard from "../views/Dashboard.vue";
+import Energy from "../views/Energy.vue";
 import Battery from "../views/Battery.vue";
 import Tokens from "../views/Tokens.vue";
 import IoTs from "../views/IoTs.vue";
@@ -18,6 +19,12 @@ const routes = [
     path: "/dashboard-default",
     name: "Dashboard",
     component: Dashboard,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: "/energy",
+    name: "Energy",
+    component: Energy,
     meta: { requiresAuth: true }
   },
   {

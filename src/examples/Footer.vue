@@ -8,8 +8,8 @@
             :class="this.$store.state.isRTL ? 'text-lg-end' : 'text-lg-start'"
           >
             ©
-            {{ new Date().getFullYear() }}, powered
-            <i class="fa fa-flash"></i> by
+            {{ new Date().getFullYear() }}, made with 
+            <i class="fa fa-heart"></i> by
             <a
               href="https://www.gecad.isep.ipp.pt"
               class="font-weight-bold"

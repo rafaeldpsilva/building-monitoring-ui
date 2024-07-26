@@ -17,6 +17,17 @@
       </li>
       <li class="nav-item">
         <sidenav-item
+          url="/energy"
+          :class="getRoute() === 'energy' ? 'active' : ''"
+          :navText="'Energy'"
+        >
+          <template v-slot:icon>
+            <i class="fas fa-bolt text-primary text-sm opacity-10"></i>
+          </template>
+        </sidenav-item>
+      </li>
+      <li class="nav-item">
+        <sidenav-item
           url="/iots"
           :class="getRoute() === 'iots' ? 'active' : ''"
           :navText="'IoTs'"

@@ -145,11 +145,21 @@ export default defineComponent({
         containLabel: true
       },
       xAxis: {
+        name: 'Hour (h)',
+        nameLocation: 'middle',
+        nameTextStyle:{
+            padding: [5, 0, 0, 0]
+        },
         type: 'category',
         boundaryGap: false,
         data: []
       },
       yAxis: {
+        name: 'Percentage (%)',
+        nameLocation: 'middle',
+        nameTextStyle:{
+          padding: [0, 0, 20, 0]
+        },
         type: 'value',
         max: 100,
       },
@@ -170,7 +180,7 @@ export default defineComponent({
 </script>
 <style scoped>
 .chart {
-  height: 30vh;
+  height: 40vh;
 }
 </style>
 

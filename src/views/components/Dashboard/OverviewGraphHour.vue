@@ -49,11 +49,25 @@ export default defineComponent({
   async mounted() {
     this.loading = true;
     this.nowHour = new Date().getHours();
-    const overview = JSON.parse(localStorage.getItem("overview"))
+    this.option.xAxis.data = []
+    for(let h = 0; h < 24; h++){
+      if (this.nowHour - 17 + h < 0){
+        this.option.xAxis.data.push(this.nowHour-17+h+24)
+      } else{
+        if (this.nowHour - 17 + h > 23) {
+          this.option.xAxis.data.push(this.nowHour-17+h-24)
+        } else {
+          this.option.xAxis.data.push(this.nowHour-17+h)
+        }
+      }
+    }
+    
+    //const overview = JSON.parse(localStorage.getItem("overview"))
+    const overview = [];
     if (overview.length != 4 || this.nowHour != overview[0][23]) {
       await this.loadBuildingOverview();
     } else {
-      this.option.xAxis.data = overview[0].slice(6);
+      //this.option.xAxis.data = overview[0].slice(6);
       this.option.series[0].data = overview[1].slice(6);
       this.option.series[1].data = overview[2].slice(6);
       this.option.series[2].data = overview[3].slice(6);
@@ -62,7 +76,7 @@ export default defineComponent({
     
     let i = 0;
     while (i < 6) {
-      this.option.xAxis.data.push(this.nowHour + i)
+      //this.option.xAxis.data.push(this.nowHour + i +1)
       this.option.series[0].data.push(null)
       this.option.series[1].data.push(null)
       this.option.series[2].data.push(null)
@@ -116,7 +130,7 @@ export default defineComponent({
           i++;
         }
         this.loading = false;
-        this.option.xAxis.data = hours.slice(5);
+        //this.option.xAxis.data = hours.slice(5);
         console.log(hours)
         this.option.series[0].data = consumption.slice(6);
         this.option.series[1].data = generation.slice(6);
@@ -142,6 +156,11 @@ export default defineComponent({
         containLabel: true
       },
       xAxis: {
+        name: 'Hours (h)',
+        nameLocation: 'middle',
+        nameTextStyle:{
+            padding: [5, 0, 0, 0]
+        },
         type: 'category',
         boundaryGap: false,
         data: [],
@@ -164,6 +183,11 @@ export default defineComponent({
         },
       },
       yAxis: {
+        name: 'Energy (Wh)',
+        nameLocation: 'middle',
+        nameTextStyle:{
+            padding: [0, 0, 35, 0]
+        },
         type: 'value'
       },
       series: [
@@ -207,7 +231,7 @@ export default defineComponent({
 </script>
 <style scoped>
 .chart {
-  height: 30vh;
+  height: 40vh;
 }
 </style>
 

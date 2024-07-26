@@ -18,7 +18,7 @@
             </div>
             <div class="ms-4 me-4">
               <p class="text-white text-sm opacity-8 mb-0">{{ cardExpirationText }}</p>
-              <h6 class="text-white mb-0">12/23</h6>
+              <h6 class="text-white mb-0">12/24</h6>
             </div>
             <div>
               <p class="text-white text-sm opacity-8 mb-0">{{ BalanceText }}</p>
@@ -73,7 +73,7 @@ export default {
   async created(){
     this.name = localStorage.getItem("name")
     //this.balance = await BuildingService.getBalance(localStorage.getItem("uri"),localStorage.getItem("token"))
-    this.balance = 51
+    this.balance = 35.72
   }
 };
 </script>

@@ -68,7 +68,7 @@
                 <span class="badge badge-sm bg-gradient-success">Online</span>
               </td>
               <td class="align-middle text-center">
-                <input disabled type="checkbox" id="checkbox" v-model=iot.control.demandresponse />
+                <p class="text-xs font-weight-bold mb-0">{{iot.control.demandresponse}}</p>
               </td>
               <!--td class="align-middle">
                 <span class="text-secondary text-xs font-weight-bold">Edit</span>
@@ -77,7 +77,7 @@
           </tbody>
         </table>
         <div class="text-center mt-3">
-          <button @click="toggleShowMore" class="btn btn-neutral">
+          <button @click="toggleShowMore" class="btn btn-invisible">
             <i :class="showMore ? 'fas fa-angle-up' : 'fas fa-angle-down'"></i>
           </button>
         </div>
@@ -127,8 +127,15 @@ export default {
       this.isModalVisible = true;
     },
     async loadIotsList() {
-      var list = await IotService.getIots(localStorage.getItem("uri"))
-      for(var i = 0; i< list.length; i++){
+      var response = await IotService.getIots(localStorage.getItem("uri"))
+      let list = []
+      for(var i = 0; i< response.length; i++){
+        if (response[i]['connectionmode']=='local'){
+          console.log(response[i])
+          list.push(response[i])
+        }
+      }
+      for(i = 0; i< list.length; i++){
         var aux = [];
         for (var j = 0; j< list[i]['values'].length; j++){
           aux.push(list[i]['values'][j]['type'])
@@ -145,6 +152,10 @@ export default {
 };
 </script>
 <style scoped>
+.btn-invisible {
+  box-shadow: none;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;

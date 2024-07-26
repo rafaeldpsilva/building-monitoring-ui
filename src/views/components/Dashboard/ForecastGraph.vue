@@ -87,12 +87,22 @@ export default defineComponent({
             containLabel: true
         },
         xAxis: {
-            type: 'category',
-            boundaryGap: false,
-            data: []
+          name: 'Hours (h)',
+          nameLocation: 'middle',
+          nameTextStyle:{
+              padding: [5, 0, 0, 0]
+          },
+          type: 'category',
+          boundaryGap: false,
+          data: []
         },
         yAxis: {
-            type: 'value'
+          name: 'Energy (Wh)',
+          nameLocation: 'middle',
+          nameTextStyle:{
+            padding: [0, 0, 35, 0]
+          },
+          type: 'value'
         },
         series: [
             {
@@ -112,6 +122,6 @@ export default defineComponent({
 
 <style scoped>
 .chart {
-  height: 30vh;
+  height: 40vh;
 }
 </style>
