@@ -24,7 +24,7 @@
       ></i>
       <router-link class="m-0 navbar-brand" to="/">
         <img src="https://www.gecad.isep.ipp.pt/wp-content/uploads/2023/06/cropped-GECAD_LOGO_ICON-192x192.png" />
-        <span class="ms-2 font-weight-bold me-2">Building Monitoring</span>
+        <span class="ms-2 font-weight-bold me-2">{{ name }}</span>
       </router-link>
     </div>
     <hr class="mt-0 horizontal dark" />
@@ -43,9 +43,13 @@ export default {
   },
   data() {
     return {
+      name: "",
       logo,
       logoWhite
     };
+  },
+  mounted() {
+    this.name = localStorage.getItem("name")
   },
   props: ["custom_class", "layout"]
 };
