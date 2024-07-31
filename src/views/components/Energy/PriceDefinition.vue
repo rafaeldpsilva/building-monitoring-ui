@@ -62,30 +62,33 @@ export default defineComponent({
     }
   },
   async mounted() {
-    await this.loadMarketPrices();
-    this.setSellAuto();
-    this.setBuyAuto();
+    await this.loadUserPrices();
   },
   methods: {
     async loadUserPrices(){
-      await PriceService.getP2PPrices().then(prices => {
-        let sell = prices['sell'];
+      await PriceService.getP2PPrices(localStorage.getItem("uri")).then(prices => {
+        let sell = [];
         let buy = prices['buy'];
-        this.option.series[0].data = buy;
-        this.option.series[1].data = sell;
-      })
-    },
-    async loadMarketPrices(){
-      await PriceService.getTodayPrices().then(prices => {
         let hours = [];
         let price = [];
-        prices.forEach(entry =>{
+        prices['market_prices'].forEach(entry =>{
           hours.push(entry[0]);
           price.push(entry[1]);
         })
+        for(let i = 0; i< prices['sell'].length; i++ ){
+          sell.push(prices['sell'][i]- prices['buy'][i])
+        }
         this.option.xAxis.data = hours;
         this.option.series[2].data = price;
-      });
+        this.option.series[0].data = buy;
+        this.option.series[1].data = sell;
+        this.updateSell(prices['sell_percentage']*100); 
+        this.selper=prices['sell_percentage']*100
+        this.updateBuy(prices['buy_percentage']*100); 
+        this.buyper=prices['buy_percentage']*100
+        this.autoBuy = false;
+        this.autoSell = false;
+      })
     },
     updateBuy(val){
       let buy = [];
@@ -113,8 +116,7 @@ export default defineComponent({
       }
     },
     async sendPrices(){
-      await PriceService.postPrices(localStorage.getItem("uri"), this.sellPrices, this.buyPrices);
-      console.log(this.sellPrices, this.buyPrices);
+      await PriceService.postPrices(localStorage.getItem("uri"), this.selper/100, this.buyper/100);
     },
     setSellAuto(){
       this.updateSell(19); 

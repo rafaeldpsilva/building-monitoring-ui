@@ -52,7 +52,7 @@
     },
     methods: {
       async getLastMonthBenefits(){
-        this.option.series[0].data = [{ value: 1048, name: 'Retailer' },{ value: 1048, name: 'Demand Response' },{ value: 1048, name: 'P2P' }]
+        this.option.series[0].data = [{ value: 1048, name: 'Retailer'},{ value: 1048, name: 'Demand Response' },{ value: 1048, name: 'P2P' }]
       }
     },
     setup() {

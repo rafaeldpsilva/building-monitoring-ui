@@ -40,7 +40,7 @@ export default defineComponent({
   props: {
     title: {
       type: String,
-      default: "Energy Cost",
+      default: "Energy Usage",
     }
   },
   data() {
@@ -73,9 +73,9 @@ export default defineComponent({
         });
         this.loading = false;
         this.option.xAxis.data = hours
-        this.option.series[0].data = p2p;
+        this.option.series[2].data = p2p;
         this.option.series[1].data = demandresponse;
-        this.option.series[2].data = retailer;
+        this.option.series[0].data = retailer;
         this.option.series[3].data = balance;
       });
     },
@@ -86,7 +86,7 @@ export default defineComponent({
   setup() {
     const option = ref({
   legend: {
-    data: ['P2P', 'Demand Response', 'Retailer', 'Balance'],
+    data: ['Retailer', 'Demand Response', 'P2P', 'Balance'],
     left: '10%'
   },
   tooltip: {
@@ -105,7 +105,7 @@ export default defineComponent({
   },
   series: [
     {
-      name: 'P2P',
+      name: 'Retailer',
       type: 'bar',
       stack: 'one',
       emphasis: {
@@ -127,7 +127,7 @@ export default defineComponent({
       data: []
     },
     {
-      name: 'Retailer',
+      name: 'P2P',
       type: 'bar',
       stack: 'one',
       emphasis: {
@@ -136,7 +136,7 @@ export default defineComponent({
             shadowColor: 'rgba(0,0,0,0.3)'
       }},
       data: []
-    },
+    }, 
     {
       name: 'Balance',
       type: 'line',
@@ -147,7 +147,8 @@ export default defineComponent({
             shadowColor: 'rgba(0,0,0,0.3)'
       }},
       data: []
-    }
+    },
+     
   ]
 }
     );
