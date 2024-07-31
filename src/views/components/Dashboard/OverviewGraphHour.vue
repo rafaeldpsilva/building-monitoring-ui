@@ -62,8 +62,7 @@ export default defineComponent({
       }
     }
     
-    //const overview = JSON.parse(localStorage.getItem("overview"))
-    const overview = [];
+    const overview = JSON.parse(localStorage.getItem("overview"))
     if (overview.length != 4 || this.nowHour != overview[0][23]) {
       await this.loadBuildingOverview();
     } else {
@@ -72,8 +71,6 @@ export default defineComponent({
       this.option.series[1].data = overview[2].slice(6);
       this.option.series[2].data = overview[3].slice(6);
     }
-    console.log(this.nowHour.toString())
-    
     let i = 0;
     while (i < 6) {
       //this.option.xAxis.data.push(this.nowHour + i +1)
@@ -84,11 +81,12 @@ export default defineComponent({
     }
     
     const forecast = JSON.parse(localStorage.getItem("forecast-overview"))
-    if (forecast.length != 3) {
+    if (forecast.length != 4) {
       await this.loadBuildingForecast(this.nowHour);
     } else {
       this.option.series[3].data = forecast[1];
       this.option.series[4].data = forecast[2];
+      this.option.series[5].data = forecast[3];
       this.loading = false;
     }
     this.option.xAxis.axisPointer.value = this.nowHour.toString();
@@ -96,21 +94,25 @@ export default defineComponent({
   methods: {
     async loadBuildingForecast(hour) {
       let consumption = [];
+      let flexibility = [];
       let hours = [];
       await BuildingService.getForecastConsumption(localStorage.getItem("uri")).then(forecast => {
         let i = 0;
         while (i < 17) {
           consumption.push(null);
+          flexibility.push(null);
           hours.push(i);
           i++;
         }
         i = 0;
         while (i < 7) {
           consumption.push(forecast[i + hour].toFixed(2));
+          flexibility.push((forecast[i + hour]*0.2).toFixed(2));
           hours.push(i);
           i++;
         }
         this.option.series[3].data = consumption;
+        this.option.series[5].data = flexibility;
       });
       let generation = [];
       await BuildingService.getForecastGeneration(localStorage.getItem("uri")).then( forecast => {
@@ -121,12 +123,16 @@ export default defineComponent({
         }
         i = 0;
         while (i < 7) {
-          generation.push(forecast[i + hour].toFixed(2));  
+          if(forecast.length == 24){
+            generation.push(forecast[i + hour].toFixed(2));  
+          }else{
+            generation.push(0);
+          }
           i++;
         }
         this.option.series[4].data = generation;
       });
-      localStorage.setItem("forecast-overview", JSON.stringify([hours, consumption, generation]))
+      localStorage.setItem("forecast-overview", JSON.stringify([hours, consumption, generation, flexibility]))
       this.loading = false;
     },
     async loadBuildingOverview() {
@@ -243,6 +249,16 @@ export default defineComponent({
           showSymbol: false,
           lineStyle: {
             color: '#f5365c',
+            width: 2,
+            type: 'dashed'
+          },
+        },
+        {
+          data: [],
+          type: 'line',
+          showSymbol: false,
+          lineStyle: {
+            color: '#2dce89',
             width: 2,
             type: 'dashed'
           },

@@ -6,18 +6,18 @@
           <div class="col-lg-3 col-md-6 col-12">
             <card :title="stats.consumption.title" :value="stats.consumption.value"
               :percentage="stats.consumption.percentage" :iconClass="stats.consumption.iconClass"
-              :iconBackground="stats.consumption.iconBackground" :detail="detail" directionReverse></card>
+              :iconBackground="stats.consumption.iconBackground" directionReverse></card>
           </div>
           <div class="col-lg-3 col-md-6 col-12">
             <card :title="stats.generation.title" :value="stats.generation.value"
               :percentage="stats.generation.percentage" :iconClass="stats.generation.iconClass"
-              :iconBackground="stats.generation.iconBackground" :detail="detail" directionReverse></card>
+              :iconBackground="stats.generation.iconBackground" directionReverse></card>
           </div>
           <div class="col-lg-3 col-md-6 col-12">
             <card :title="stats.flexibility.title" :value="stats.flexibility.value"
               :percentage="stats.flexibility.percentage" :iconClass="stats.flexibility.iconClass"
               :iconBackground="stats.flexibility.iconBackground" :percentageColor="stats.flexibility.percentageColor"
-              :detail="detail" directionReverse></card>
+               directionReverse></card>
           </div>
         </div>
         <div class="row mb-4">
@@ -68,7 +68,7 @@ export default {
         generation: {
           title: "Generation",
           value: "",
-          iconClass: "fa fa-sun-o",
+          iconClass: "fa fa-solar-panel",
           iconBackground: "bg-gradient-danger",
         },
         flexibility: {

@@ -59,6 +59,17 @@ export default defineComponent({
         this.loading = false;
         this.option.xAxis.data = hours;
         this.option.series[0].data = consumption;
+        let flexibility = [];
+        for(let i = 0; i< 7; i++){
+          flexibility.push(0)
+        }
+        for(i = 7; i< 19; i++){
+          flexibility.push(consumption[i]*0.2)
+        }
+        for(i = 19; i< 24; i++){
+          flexibility.push(0)
+        }
+        this.option.series[2].data = flexibility;
       });
       await BuildingService.getForecastGeneration(localStorage.getItem("uri")).then( forecast => {
         console.log(forecast)
@@ -116,6 +127,13 @@ export default defineComponent({
               name: 'Generation',
               type: 'line',
               color: "#f5365c",
+              showSymbol: false,
+              data: []
+            },
+            {
+              name: 'Flexibility',
+              type: 'line',
+              color: "#2dce89",
               showSymbol: false,
               data: []
             }
