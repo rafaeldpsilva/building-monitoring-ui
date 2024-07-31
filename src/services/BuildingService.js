@@ -12,6 +12,7 @@ const BuildingService = {
   correlations: "correlations",
   forecast: "forecast",
   forecast_consumption: "forecast/consumption",
+  forecast_generation: "forecast/generation",
   forecast_flexibility: "forecast/flexibility",
   audit_check: "audit/check",
   forget: "forget",
@@ -96,6 +97,15 @@ const BuildingService = {
     try {
       const response = await axios.get(path);
       return response.data.forecasted_consumption
+    } catch (error) {
+      console.error(error);
+    };
+  },
+  async getForecastGeneration(url) {
+    const path = url + this.forecast_generation
+    try {
+      const response = await axios.get(path);
+      return response.data.forecasted_generation
     } catch (error) {
       console.error(error);
     };

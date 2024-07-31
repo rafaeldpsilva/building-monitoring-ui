@@ -4,7 +4,7 @@
       <h6>{{ title }}</h6>
     </div>
     <div class="p-3 card-body">
-      <Graph :labels="hours" :consumption="consumption"/>
+      <Graph />
     </div>
   </div>
 </template>
@@ -20,13 +20,11 @@ export default {
   props: {
     title: {
       type: String,
-      default: "Consumption Forecast",
+      default: "Energy Forecast",
     }
   },
   data() {
     return {
-      consumption: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      hours: ["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"]
     }
   },
 };

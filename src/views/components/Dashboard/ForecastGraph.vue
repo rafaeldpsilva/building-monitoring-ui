@@ -29,12 +29,11 @@ export default defineComponent({
   components: {
     VChart,
   },
-  props: {
-    labels: [],
-    consumption: [],
-  },
   data(){
     return {
+      labels: [],
+      consumption: [],
+      generation: [],
       loading: true,
     }
   },
@@ -43,16 +42,8 @@ export default defineComponent({
   },
   async mounted(){
     this.loading = true;
-    this.option.xAxis.data = this.labels;
-    this.option.series[0].data = this.consumption;
-    const forecast = JSON.parse(localStorage.getItem("forecast"))
-    if (forecast.length != 2){
-      await this.loadBuildingForecast();
-    } else {
-      this.option.xAxis.data = forecast[0];
-      this.option.series[0].data = forecast[1];
-      this.loading = false;
-    }
+    await this.loadBuildingForecast();
+    this.loading = false;
   },
   methods: {  
     async loadBuildingForecast() {
@@ -68,7 +59,16 @@ export default defineComponent({
         this.loading = false;
         this.option.xAxis.data = hours;
         this.option.series[0].data = consumption;
-        localStorage.setItem("forecast", JSON.stringify([hours, consumption]))
+      });
+      await BuildingService.getForecastGeneration(localStorage.getItem("uri")).then( forecast => {
+        console.log(forecast)
+        let generation = [];
+        let i = 0;
+        while (i < forecast.length) {
+          generation.push(forecast[i].toFixed(2));  
+          i++;
+        }
+        this.option.series[1].data = generation;
       });
     },
   },
@@ -78,7 +78,7 @@ export default defineComponent({
             trigger: 'axis'
         },
         legend: {
-            data: ['Consumption']
+            data: ['Consumption', 'Generation']
         },
         grid: {
             left: '3%',
@@ -106,11 +106,18 @@ export default defineComponent({
         },
         series: [
             {
-            name: 'Consumption',
-            type: 'line',
-            color: "#825ee4",
-            showSymbol: false,
-            data: []
+              name: 'Consumption',
+              type: 'line',
+              color: "#825ee4",
+              showSymbol: false,
+              data: []
+            },
+            {
+              name: 'Generation',
+              type: 'line',
+              color: "#f5365c",
+              showSymbol: false,
+              data: []
             }
         ]
         }

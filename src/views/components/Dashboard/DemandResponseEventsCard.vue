@@ -59,7 +59,7 @@
                 <span class="text-xs">{{invite.event_time}}</span>
               </div>
             </div>
-            <div class="d-flex align-items-center text-gradient text-sm font-weight-bold" :class="invite.response == 'YES' ? 'text-success' : 'text-danger'">{{invite.load_kwh}} wh</div>
+            <div class="d-flex align-items-center text-gradient text-sm font-weight-bold" :class="invite.response == 'YES' ? 'text-success' : 'text-danger'">{{invite.load_kwh}} Wh</div>
           </li>
         </ul>
       </div>

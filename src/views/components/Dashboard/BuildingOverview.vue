@@ -36,7 +36,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: "Building Overview",
+      default: "Overview",
     }
   },
   computed: {

@@ -40,7 +40,7 @@ export default defineComponent({
   props: {
     title: {
       type: String,
-      default: "Energy Details",
+      default: "Energy Cost",
     }
   },
   data() {
@@ -57,7 +57,6 @@ export default defineComponent({
   methods: {
     async loadBuildingOverview() {
       await BuildingService.getOverview(localStorage.getItem("uri")).then(historic => {
-        let generation = [];
         let p2p = [];
         let demandresponse = [];
         let retailer = [];
@@ -67,7 +66,6 @@ export default defineComponent({
           const r = Math.random();
           const r2 = Math.random();
           hours.push(new Date(entry[0]).getUTCHours());
-          generation.push(-entry[2]);
           p2p.push(entry[1]*(1-r)*(r2));
           demandresponse.push(entry[1]*(1-r)*(1-r2));
           retailer.push(entry[1]*r);
@@ -75,11 +73,10 @@ export default defineComponent({
         });
         this.loading = false;
         this.option.xAxis.data = hours
-        this.option.series[0].data = generation;
-        this.option.series[1].data = p2p;
-        this.option.series[2].data = demandresponse;
-        this.option.series[3].data = retailer;
-        this.option.series[4].data = balance;
+        this.option.series[0].data = p2p;
+        this.option.series[1].data = demandresponse;
+        this.option.series[2].data = retailer;
+        this.option.series[3].data = balance;
       });
     },
   },
@@ -89,7 +86,7 @@ export default defineComponent({
   setup() {
     const option = ref({
   legend: {
-    data: ['Self Consumption', 'P2P', 'Demand Response', 'Retailer', 'Balance'],
+    data: ['P2P', 'Demand Response', 'Retailer', 'Balance'],
     left: '10%'
   },
   tooltip: {
@@ -107,17 +104,6 @@ export default defineComponent({
     bottom: 30
   },
   series: [
-    {
-      name: 'Self Consumption',
-      type: 'bar',
-      stack: 'one',
-      color: "#f56036",
-      emphasis: {
-        itemStyle: {
-            shadowBlur: 10,
-      }},
-      data: []
-    },
     {
       name: 'P2P',
       type: 'bar',

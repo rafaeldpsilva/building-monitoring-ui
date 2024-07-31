@@ -84,19 +84,20 @@ export default defineComponent({
     }
     
     const forecast = JSON.parse(localStorage.getItem("forecast-overview"))
-    if (forecast.length != 2) {
+    if (forecast.length != 3) {
       await this.loadBuildingForecast(this.nowHour);
     } else {
       this.option.series[3].data = forecast[1];
+      this.option.series[4].data = forecast[2];
       this.loading = false;
     }
     this.option.xAxis.axisPointer.value = this.nowHour.toString();
   },
   methods: {
     async loadBuildingForecast(hour) {
+      let consumption = [];
+      let hours = [];
       await BuildingService.getForecastConsumption(localStorage.getItem("uri")).then(forecast => {
-        let consumption = [];
-        let hours = [];
         let i = 0;
         while (i < 17) {
           consumption.push(null);
@@ -109,10 +110,24 @@ export default defineComponent({
           hours.push(i);
           i++;
         }
-        this.loading = false;
         this.option.series[3].data = consumption;
-        localStorage.setItem("forecast-overview", JSON.stringify([hours, consumption]))
       });
+      let generation = [];
+      await BuildingService.getForecastGeneration(localStorage.getItem("uri")).then( forecast => {
+        let i = 0;
+        while (i < 17) {
+          generation.push(null);
+          i++;
+        }
+        i = 0;
+        while (i < 7) {
+          generation.push(forecast[i + hour].toFixed(2));  
+          i++;
+        }
+        this.option.series[4].data = generation;
+      });
+      localStorage.setItem("forecast-overview", JSON.stringify([hours, consumption, generation]))
+      this.loading = false;
     },
     async loadBuildingOverview() {
       await BuildingService.getOverview(localStorage.getItem("uri")).then(historic => {
@@ -218,6 +233,16 @@ export default defineComponent({
           showSymbol: false,
           lineStyle: {
             color: '#825ee4',
+            width: 2,
+            type: 'dashed'
+          },
+        },
+        {
+          data: [],
+          type: 'line',
+          showSymbol: false,
+          lineStyle: {
+            color: '#f5365c',
             width: 2,
             type: 'dashed'
           },
