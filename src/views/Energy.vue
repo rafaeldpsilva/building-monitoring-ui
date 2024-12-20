@@ -17,12 +17,16 @@
     <div class="row mb-4">
       <div class="col-lg-12">
         <div class="row">
-          <div class="col-lg-7 mb-lg">
+          <div class="col-lg-6 mb-lg">
+            <div class="card z-index-2">
+              <EnergyCO2 />
+            </div>
+          </div>
+          <div class="col-lg-6 mb-lg">
             <div class="card z-index-2">
               <price-definition />
             </div>
-          </div>
-          
+          </div>  
         </div>
       </div>
     </div>
@@ -32,13 +36,15 @@
 import EnergyDiscrimination from "./components/Energy/EnergyDiscrimination.vue";
 import LastMonthBenefits from "./components/Energy/LastMonthBenefits.vue";
 import PriceDefinition from "./components/Energy/PriceDefinition.vue";
+import EnergyCO2 from "./components/Energy/EnergyCO2.vue";
 
 export default {
   name: "energy",
   components: {
     PriceDefinition,
     EnergyDiscrimination,
-    LastMonthBenefits
+    LastMonthBenefits,
+    EnergyCO2
   },
   data() {
     return {

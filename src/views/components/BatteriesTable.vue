@@ -2,6 +2,9 @@
   <div class="card mb-4">
     <div class="card-header pb-0">
       <h6>Batteries Table</h6>
+      <p v-if="batteryList.length == 0" class="text-sm">
+          <span class="font-weight-bold">You don't have batteries installed :/</span>
+      </p>
     </div>
     <div v-if="this.loading" class="fa-3x text-center">
       <i class="fas fa-circle-notch fa-spin"></i>

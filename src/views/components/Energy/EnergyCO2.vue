@@ -33,14 +33,14 @@ use([
   CanvasRenderer
 ]);
 export default defineComponent({
-  name: "energy-discrimination",
+  name: "energy-co2",
   components:{
     VChart
   },
   props: {
     title: {
       type: String,
-      default: "Energy Usage",
+      default: "CO2",
     }
   },
   data() {
@@ -52,25 +52,25 @@ export default defineComponent({
   },
   methods: {
     async loadEnergy() {
-      await EnergyService.get_energy_from_retailer(localStorage.getItem("uri")).then(historic => {
-        let retailer = [];
+      await EnergyService.get_co2_with_p2p(localStorage.getItem("uri")).then(historic => {
+        let co2_with_p2p = [];
         let hours = [];
         historic.forEach(entry => {
           hours.push(new Date(entry['datetime']).getUTCHours());
-          retailer.push(entry['retailer']);
+          co2_with_p2p.push(entry['co2_with_p2p']);
         });
         this.loading = false;
         this.option.xAxis.data = hours
-        this.option.series[0].data = retailer;
+        this.option.series[0].data = co2_with_p2p;
       });
-      await EnergyService.get_self_consumption(localStorage.getItem("uri")).then(historic => {
-        let selfconsumption = [];
+      await EnergyService.get_co2_without_p2p(localStorage.getItem("uri")).then(historic => {
+        let co2_without_p2p = [];
         let hours = [];
         historic.forEach(entry => {
           hours.push(new Date(entry['datetime']).getUTCHours());
-          selfconsumption.push(entry['self_consumption']);
+          co2_without_p2p.push(entry['co2_without_p2p']);
         });
-        this.option.series[1].data = selfconsumption;
+        this.option.series[1].data = co2_without_p2p;
       });
       //this.option.series[2].data = p2p;
       //this.option.series[1].data = demandresponse;
@@ -82,7 +82,7 @@ export default defineComponent({
   setup() {
     const option = ref({
   legend: {
-    data: ['Retailer', 'Self-Consumption', 'P2P', 'Balance'],
+    data: ['CO2 With P2P', 'CO2 Without P2P'],
     left: '10%'
   },
   tooltip: {
@@ -96,18 +96,19 @@ export default defineComponent({
     splitArea: { show: false }
   },
   yAxis: {
-    name: 'W',
+    name: 'g / W',
     nameLocation: 'middle',
     nameTextStyle:{
       padding: [0, 0, 35, 0]
-    }
+    },
+    min: 0,
   },
   grid: {
     bottom: 30
   },
   series: [
     {
-      name: 'Retailer',
+      name: 'CO2 With P2P',
       type: 'bar',
       stack: 'one',
       emphasis: {
@@ -118,39 +119,16 @@ export default defineComponent({
       data: []
     },
     {
-      name: 'Self-Consumption',
+      name: 'CO2 Without P2P',
       type: 'bar',
-      stack: 'one',
+      stack: 'two',
       emphasis: {
         itemStyle: {
             shadowBlur: 10,
             shadowColor: 'rgba(0,0,0,0.3)'
       }},
       data: []
-    },
-    {
-      name: 'P2P',
-      type: 'bar',
-      stack: 'one',
-      emphasis: {
-        itemStyle: {
-            shadowBlur: 10,
-            shadowColor: 'rgba(0,0,0,0.3)'
-      }},
-      data: []
-    }, 
-    {
-      name: 'Balance',
-      type: 'line',
-      symbolSize: 8,
-      emphasis: {
-        itemStyle: {
-            shadowBlur: 10,
-            shadowColor: 'rgba(0,0,0,0.3)'
-      }},
-      data: []
-    },
-     
+    }
   ]
 }
     );

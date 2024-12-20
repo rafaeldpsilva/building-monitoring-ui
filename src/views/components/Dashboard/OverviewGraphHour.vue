@@ -1,18 +1,17 @@
 <template>
-  <div v-if="this.loading" class="fa-3x text-center">
-    <i class="fas fa-circle-notch fa-spin"></i>
-  </div>
-  <v-chart v-else class="chart" :option="option" autoresize />
+    <div v-if="this.loading" class="fa-3x text-center">
+      <i class="fas fa-circle-notch fa-spin" ></i>
+    </div>
+    <v-chart v-else class="chart" :option="option" autoresize/>
 </template>
-
 <script>
 import { use } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { LineChart } from 'echarts/charts';
 import {
-  TooltipComponent,
-  LegendComponent,
-  GridComponent,
+    TooltipComponent,
+    LegendComponent,
+    GridComponent,
 } from 'echarts/components';
 import VChart, { THEME_KEY } from 'vue-echarts';
 import { ref, defineComponent } from 'vue';
@@ -27,252 +26,189 @@ use([
 ]);
 
 export default defineComponent({
-  name: "overview-graph-hour",
   components: {
     VChart,
   },
-  props: {
-    interval: [],
-    unit: [],
-    consumption: [],
-    generation: [],
-    flexibility: [],
-  },
-  data() {
+  data(){
     return {
+      labels: [],
+      consumption: [],
+      generation: [],
       loading: true,
     }
   },
   provide: {
     [THEME_KEY]: 'light',
   },
-  async mounted() {
+  async mounted(){
     this.loading = true;
-    this.nowHour = new Date().getHours();
-    this.option.xAxis.data = []
-    for(let h = 0; h < 24; h++){
-      if (this.nowHour - 17 + h < 0){
-        this.option.xAxis.data.push(this.nowHour-17+h+24)
-      } else{
-        if (this.nowHour - 17 + h > 23) {
-          this.option.xAxis.data.push(this.nowHour-17+h-24)
-        } else {
-          this.option.xAxis.data.push(this.nowHour-17+h)
-        }
-      }
-    }
-    
-    const overview = JSON.parse(localStorage.getItem("overview"))
-    if (overview.length != 4 || this.nowHour != overview[0][23]) {
-      await this.loadBuildingOverview();
-    } else {
-      //this.option.xAxis.data = overview[0].slice(6);
-      this.option.series[0].data = overview[1].slice(6);
-      this.option.series[1].data = overview[2].slice(6);
-      this.option.series[2].data = overview[3].slice(6);
-    }
-    let i = 0;
-    while (i < 6) {
-      //this.option.xAxis.data.push(this.nowHour + i +1)
-      this.option.series[0].data.push(null)
-      this.option.series[1].data.push(null)
-      this.option.series[2].data.push(null)
-      i++;
-    }
-    
-    const forecast = JSON.parse(localStorage.getItem("forecast-overview"))
-    if (forecast.length != 4) {
-      await this.loadBuildingForecast(this.nowHour);
-    } else {
-      this.option.series[3].data = forecast[1];
-      this.option.series[4].data = forecast[2];
-      this.option.series[5].data = forecast[3];
-      this.loading = false;
-    }
-    this.option.xAxis.axisPointer.value = this.nowHour.toString();
+    await this.loadBuildingForecast();
+    await this.loadBuildingOverview();
+    this.loading = false;
   },
   methods: {
-    async loadBuildingForecast(hour) {
-      let consumption = [];
-      let flexibility = [];
-      let hours = [];
-      await BuildingService.getForecastConsumption(localStorage.getItem("uri")).then(forecast => {
-        let i = 0;
-        while (i < 17) {
-          consumption.push(null);
-          flexibility.push(null);
-          hours.push(i);
-          i++;
-        }
-        i = 0;
-        while (i < 7) {
-          consumption.push(forecast[i + hour].toFixed(2));
-          flexibility.push((forecast[i + hour]*0.2).toFixed(2));
-          hours.push(i);
-          i++;
-        }
-        this.option.series[3].data = consumption;
-        this.option.series[5].data = flexibility;
-      });
-      let generation = [];
-      await BuildingService.getForecastGeneration(localStorage.getItem("uri")).then( forecast => {
-        let i = 0;
-        while (i < 17) {
-          generation.push(null);
-          i++;
-        }
-        i = 0;
-        while (i < 7) {
-          if(forecast.length == 24){
-            generation.push(forecast[i + hour].toFixed(2));  
-          }else{
-            generation.push(0);
-          }
-          i++;
-        }
-        this.option.series[4].data = generation;
-      });
-      localStorage.setItem("forecast-overview", JSON.stringify([hours, consumption, generation, flexibility]))
-      this.loading = false;
-    },
     async loadBuildingOverview() {
       await BuildingService.getOverview(localStorage.getItem("uri")).then(historic => {
         let consumption = [];
         let generation = [];
         let flexibility = [];
         let hours = [];
+
+        var startDay = new Date();
+        startDay.setHours(0, 0, 0, 0);
+        console.log(historic)
         let i = 0;
         while (i < historic.length) {
-          consumption.push(historic[i][1].toFixed(2));
-          generation.push(historic[i][2].toFixed(2));
-          flexibility.push(historic[i][3].toFixed(2));
-          var dateObject = new Date(historic[i][0]);
-          hours.push(dateObject.getUTCHours());
+          var date = new Date(historic[i][0]);
+          if(date > startDay){
+            var hour = date.getUTCHours()
+            hours.push(hour);
+            consumption.push(historic[i][1].toFixed(2));
+            generation.push(historic[i][2].toFixed(2));
+            flexibility.push(historic[i][3].toFixed(2));
+          }
           i++;
         }
         this.loading = false;
-        //this.option.xAxis.data = hours.slice(5);
-        console.log(hours)
-        this.option.series[0].data = consumption.slice(6);
-        this.option.series[1].data = generation.slice(6);
-        this.option.series[2].data = flexibility.slice(6);
-        localStorage.setItem("overview", JSON.stringify([hours, consumption, generation, flexibility]))
+        this.option.series[0].data = consumption;
+        this.option.series[1].data = generation;
+        this.option.series[2].data = flexibility;
       });
 
+    },
+    async loadBuildingForecast() {
+      await BuildingService.getForecastConsumption(localStorage.getItem("uri")).then( forecast => {
+        let consumption = [];
+        let hours = [];
+        let i = 0;
+        while (i < forecast.length) {
+            consumption.push(forecast[i].toFixed(2));
+            hours.push(i);
+            i++;
+        }
+        this.loading = false;
+        this.option.xAxis.data = hours;
+        this.option.series[3].data = consumption;
+        let flexibility = [];
+        for(let i = 0; i< 7; i++){
+          flexibility.push(0)
+        }
+        for(i = 7; i< 19; i++){
+          flexibility.push(consumption[i]*0.2)
+        }
+        for(i = 19; i< 24; i++){
+          flexibility.push(0)
+        }
+        this.option.series[4].data = flexibility;
+      });
+      await BuildingService.getForecastGeneration(localStorage.getItem("uri")).then( forecast => {
+        let generation = [];
+        let i = 0;
+        while (i < forecast.length) {
+          generation.push(forecast[i].toFixed(2));  
+          i++;
+        }
+        this.option.series[5].data = generation;
+      });
     },
   },
   setup() {
     const option = ref({
-      tooltip: {
-        trigger: 'axis',
-        triggerOn: 'none',
-      },
-      legend: {
-        data: ['Consumption', 'Generation', 'Flexibility']
-      },
-      grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-      },
-      xAxis: {
-        name: 'Hours (h)',
-        nameLocation: 'middle',
-        nameTextStyle:{
-            padding: [5, 0, 0, 0]
+        tooltip: {
+            trigger: 'axis'
         },
-        type: 'category',
-        boundaryGap: false,
-        data: [],
-        axisPointer: {
-          triggerOn: 'none',
-          value: '0',
-          snap: true,
-          lineStyle: {
-            color: '#7581BD',
-            width: 2
-          },
-          label: {
-            show: true,
-            backgroundColor: '#7581BD'
-          },
-          handle: {
-            show: true,
-            color: '#7581BD'
-          }
+        legend: {
+            data: ['Consumption', 'Generation','Flexibility']
         },
-      },
-      yAxis: {
-        name: 'Energy (Wh)',
-        nameLocation: 'middle',
-        nameTextStyle:{
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: {
+          name: 'Hours (h)',
+          nameLocation: 'middle',
+          nameTextStyle:{
+              padding: [5, 0, 0, 0]
+          },
+          type: 'category',
+          boundaryGap: false,
+          data: []
+        },
+        yAxis: {
+          name: 'Energy (Wh)',
+          nameLocation: 'middle',
+          nameTextStyle:{
             padding: [0, 0, 35, 0]
-        },
-        type: 'value'
-      },
-      series: [
-        {
-          name: 'Consumption',
-          type: 'line',
-          color: "#825ee4",
-          showSymbol: false,
-          data: []
-        },
-        {
-          name: 'Generation',
-          type: 'line',
-          color: "#f5365c",
-          showSymbol: false,
-          data: []
-        },
-        {
-          name: 'Flexibility',
-          type: 'line',
-          color: "#2dce89",
-          showSymbol: false,
-          data: []
-        },
-        {
-          data: [],
-          type: 'line',
-          showSymbol: false,
-          lineStyle: {
-            color: '#825ee4',
-            width: 2,
-            type: 'dashed'
           },
+          type: 'value'
         },
+        series: [
         {
-          data: [],
-          type: 'line',
-          showSymbol: false,
-          lineStyle: {
-            color: '#f5365c',
-            width: 2,
-            type: 'dashed'
-          },
-        },
-        {
-          data: [],
-          type: 'line',
-          showSymbol: false,
-          lineStyle: {
-            color: '#2dce89',
-            width: 2,
-            type: 'dashed'
-          },
-        },
-      ]
-    }
+              name: 'Consumption',
+              type: 'line',
+              color: "#825ee4",
+              showSymbol: false,
+              data: []
+            },
+            {
+              name: 'Generation',
+              type: 'line',
+              color: "#f5365c",
+              showSymbol: false,
+              data: []
+            },
+            {
+              name: 'Flexibility',
+              type: 'line',
+              color: "#2dce89",
+              showSymbol: false,
+              data: []
+            },
+            {
+              name: 'Consumption',
+              type: 'line',
+              lineStyle: {
+                color: '#825ee4',
+                width: 1,
+                type: 'dashed'
+              },
+              showSymbol: false,
+              data: []
+            },
+            {
+              name: 'Generation',
+              type: 'line',
+              lineStyle: {
+                color: '#f5365c',
+                width: 1,
+                type: 'dashed'
+              },
+              showSymbol: false,
+              data: []
+            },
+            {
+              name: 'Flexibility',
+              type: 'line',
+              lineStyle: {
+                color: '#2dce89',
+                width: 1,
+                type: 'dashed'
+              },
+              showSymbol: false,
+              data: []
+            }
+        ]
+        }
     );
     return { option };
   },
 });
 </script>
+
 <style scoped>
 .chart {
   height: 40vh;
 }
 </style>
-

@@ -25,7 +25,7 @@
 
 <script>
 import Graph from "./OverviewGraph.vue"
-import GraphHour from "./OverviewGraphHour.vue"
+import GraphHour from "./OverviewGraphHourold.vue"
 
 export default {
   name: "building-overview-second",

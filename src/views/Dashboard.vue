@@ -50,7 +50,6 @@ import BuildingOverview from "./components/Dashboard/BuildingOverview.vue";
 import BuildingForecast from "./components/Dashboard/BuildingForecast.vue";
 import BuildingService from "../services/BuildingService.js"
 import DemandResponseEventsCard from "./components/Dashboard/DemandResponseEventsCard.vue";
-//import ProductionBreakdown from "./components/ProductionBreakdown.vue";
 
 export default {
   name: "dashboard-default",
