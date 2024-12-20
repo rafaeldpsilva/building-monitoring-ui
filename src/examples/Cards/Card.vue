@@ -44,7 +44,7 @@ export default {
     },
     detail: {
       type: String,
-      required: true,
+      required: false,
     },
     titleColor: {
       type: String,

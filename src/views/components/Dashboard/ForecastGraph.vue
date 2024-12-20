@@ -89,7 +89,7 @@ export default defineComponent({
             trigger: 'axis'
         },
         legend: {
-            data: ['Consumption', 'Generation']
+            data: ['Consumption', 'Generation','Flexibility']
         },
         grid: {
             left: '3%',
