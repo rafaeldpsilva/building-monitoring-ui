@@ -15,7 +15,7 @@
 
 
 <script>
-import IotService from '../../services/IotService.js';
+import IotService from '../../../services/IotService.js';
 
 export default {
   name: "iot-values",

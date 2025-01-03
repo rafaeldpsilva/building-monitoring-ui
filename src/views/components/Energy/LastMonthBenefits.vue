@@ -11,6 +11,7 @@
     </div>
   </template>
   <script>
+  import EnergyService from '../../../services/EnergyService.js';
   import { use } from 'echarts/core';
   import { CanvasRenderer } from 'echarts/renderers';
   import { PieChart } from 'echarts/charts';
@@ -52,7 +53,11 @@
     },
     methods: {
       async getLastMonthBenefits(){
-        this.option.series[0].data = [{ value: 1048, name: 'Retailer'},{ value: 1048, name: 'Demand Response' },{ value: 1048, name: 'P2P' }]
+        this.option.series[0].data = [{ value: 0, name: 'Retailer'},{ value: 0, name: 'Demand Response' },{ value: 0, name: 'P2P' }]
+        await EnergyService.get_last_month_benefits(localStorage.getItem("uri")).then(benefits => {
+          console.log(benefits)
+          this.option.series[0].data = [{ value: benefits['retailer'], name: 'Retailer'},{ value: benefits['dr'], name: 'Demand Response' },{ value: benefits['p2p'], name: 'P2P' }]
+        });
       }
     },
     setup() {
@@ -76,11 +81,18 @@
             itemStyle: {
               borderRadius: 5
             },
+            label: {
+              show: false,
+              position: 'center'
+            },
+            labelLine: {
+              show: false
+            },
             emphasis: {
                 itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: 'rgba(0, 0, 0, 0.5)'
                 }
             },
             data: []

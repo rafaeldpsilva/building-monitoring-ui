@@ -4,6 +4,7 @@ const IotService = {
   iots: "iots",
   iot_values: "iot/values",
   iots_historic: "iot/historic",
+  iots_instructions: "iot/instructions",
 
   async getIots(url) {
     const path = url + this.iots
@@ -34,6 +35,27 @@ const IotService = {
     try {
       const response = await axios.post(path, payload);
       return response.data['historic']
+    } catch (error) {
+      console.error(error);
+    };
+  },
+  async saveInstructions(url, participationStates) {
+    let payload = {
+      "instructions": participationStates
+    }
+    const path = url + this.iots_instructions
+    try {
+      const response = await axios.post(path, payload);
+      return response
+    } catch (error) {
+      console.error(error);
+    };
+  },
+  async getInstructions(url) {
+    const path = url + this.iots_instructions
+    try {
+      const response = await axios.get(path);
+      return response.data
     } catch (error) {
       console.error(error);
     };

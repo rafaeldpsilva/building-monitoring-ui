@@ -1,4 +1,4 @@
-docker build -t rdpds/caravels-community-ui .
-docker tag rdpds/caravels-community-ui rdpds/caravels-community-ui:latest
-docker tag rdpds/caravels-community-ui rdpds/caravels-community-ui:v0.0.15
-docker push --all-tags rdpds/caravels-community-ui
+docker build -t rdpds/tiocps-building-monitoring-ui .
+docker tag rdpds/tiocps-building-monitoring-ui rdpds/tiocps-building-monitoring-ui:latest
+docker tag rdpds/tiocps-building-monitoring-ui rdpds/tiocps-building-monitoring-ui:v0.2.1
+docker push --all-tags rdpds/tiocps-building-monitoring-ui

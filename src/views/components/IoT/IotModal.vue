@@ -9,7 +9,6 @@
         <div class="modal-body">
           <div class="input-group">
             <iot-values :iot="iot"/>
-            <!--iot-historic :iot="iot"/-->
           </div>
         </div>
 
@@ -23,7 +22,6 @@
 <script>
 
 import ArgonButton from "@/components/ArgonButton.vue";
-//import IotHistoric from "./IotHistoric.vue";
 import IotValues from "./IotValues.vue";
 
 export default {
@@ -33,9 +31,8 @@ export default {
     iot: String,
   },
   components: {
-    //IotHistoric,
     IotValues,
-    ArgonButton,
+    ArgonButton
   },
 }
 </script>

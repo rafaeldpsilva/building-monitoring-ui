@@ -18,8 +18,11 @@
       <div class="col-lg-12">
         <div class="row">
           <div class="col-lg-6 mb-lg">
-            <div class="card z-index-2">
+            <div class="card z-index-2 mb-4">
               <EnergyCO2 />
+            </div>
+            <div class="card z-index-2">
+              <transactions-list />
             </div>
           </div>
           <div class="col-lg-6 mb-lg">
@@ -30,6 +33,13 @@
         </div>
       </div>
     </div>
+    <div class="row mb-4">
+      <div class="col-lg-12">
+        <div class="row">
+          
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -37,6 +47,7 @@ import EnergyDiscrimination from "./components/Energy/EnergyDiscrimination.vue";
 import LastMonthBenefits from "./components/Energy/LastMonthBenefits.vue";
 import PriceDefinition from "./components/Energy/PriceDefinition.vue";
 import EnergyCO2 from "./components/Energy/EnergyCO2.vue";
+import TransactionsList from "./components/Energy/TransactionsList.vue";
 
 export default {
   name: "energy",
@@ -44,7 +55,8 @@ export default {
     PriceDefinition,
     EnergyDiscrimination,
     LastMonthBenefits,
-    EnergyCO2
+    EnergyCO2,
+    TransactionsList
   },
   data() {
     return {

@@ -1,7 +1,14 @@
 <template>
   <div class="card">
     <div class="card-header pb-0">
-      <h6><i class="fas fa-network-wired"></i> Your IoT's</h6>
+      <div class="row">
+        <h6 class="col-md-6"><i class="fas fa-network-wired"></i> Your IoT's</h6>
+        <div class="col-md-6 d-flex justify-content-end align-items-center">
+          <div class="form-check form-switch">
+            <label class="form-check-label" @click="showInstructions">Instructions</label>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="card-body px-0 pt-0 pb-2">
       <div class="table-responsive p-0">
@@ -21,37 +28,37 @@
               <td>
                 <div class="d-flex px-2 py-1">
                   <div>
-                    <img v-if="iot.type == 'refrigerator'" src="../../assets/img/icons/refrigerator.png"
+                    <img v-if="iot.type == 'refrigerator'" src="../../../assets/img/icons/refrigerator.png"
                       class="avatar avatar-sm me-3" alt="user1" />
-                    <img v-else-if="iot.type == 'dishwasher'" src="../../assets/img/icons/dishwasher.png"
+                    <img v-else-if="iot.type == 'dishwasher'" src="../../../assets/img/icons/dishwasher.png"
                       class="avatar avatar-sm me-3" alt="user1" />
-                    <img v-else-if="iot.type == 'hvac'" src="../../assets/img/icons/hvac.png"
+                    <img v-else-if="iot.type == 'hvac'" src="../../../assets/img/icons/hvac.png"
                       class="avatar avatar-sm me-3" alt="user1" />
-                    <img v-else-if="iot.type == 'kettle'" src="../../assets/img/icons/kettle.png"
+                    <img v-else-if="iot.type == 'kettle'" src="../../../assets/img/icons/kettle.png"
                       class="avatar avatar-sm me-3" alt="user1" />
-                    <img v-else-if="iot.type == 'microwave'" src="../../assets/img/icons/microwave.png"
+                    <img v-else-if="iot.type == 'microwave'" src="../../../assets/img/icons/microwave.png"
                       class="avatar avatar-sm me-3" alt="user1" />
-                    <img v-else-if="iot.type == 'sockets'" src="../../assets/img/icons/sockets.png"
+                    <img v-else-if="iot.type == 'sockets'" src="../../../assets/img/icons/sockets.png"
                       class="avatar avatar-sm me-3" alt="user1" />
-                    <img v-else-if="iot.type == 'water heater'" src="../../assets/img/icons/waterheater.png"
+                    <img v-else-if="iot.type == 'water heater'" src="../../../assets/img/icons/waterheater.png"
                       class="avatar avatar-sm me-3" alt="user1" />
-                    <img v-else-if="iot.type == 'lamp'" src="../../assets/img/icons/lamp.png"
+                    <img v-else-if="iot.type == 'lamp'" src="../../../assets/img/icons/lamp.png"
                       class="avatar avatar-sm me-3" alt="user1" />
-                    <img v-else-if="iot.type == 'generation'" src="../../assets/img/icons/generation.png"
+                    <img v-else-if="iot.type == 'generation'" src="../../../assets/img/icons/generation.png"
                       class="avatar avatar-sm me-3" alt="user1" />
-                    <img v-else-if="iot.type == 'light'" src="../../assets/img/icons/light.png"
+                    <img v-else-if="iot.type == 'light'" src="../../../assets/img/icons/light.png"
                       class="avatar avatar-sm me-3" alt="user1" />
-                    <img v-else-if="iot.type == 'temperature'" src="../../assets/img/icons/temperature.png"
+                    <img v-else-if="iot.type == 'temperature'" src="../../../assets/img/icons/temperature.png"
                       class="avatar avatar-sm me-3" alt="user1" />
-                    <img v-else-if="iot.type == 'humidity'" src="../../assets/img/icons/humidity.png"
+                    <img v-else-if="iot.type == 'humidity'" src="../../../assets/img/icons/humidity.png"
                       class="avatar avatar-sm me-3" alt="user1" />
-                    <img v-else-if="iot.type == 'co2'" src="../../assets/img/icons/co2.png"
+                    <img v-else-if="iot.type == 'co2'" src="../../../assets/img/icons/co2.png"
                       class="avatar avatar-sm me-3" alt="user1" />
-                    <img v-else-if="iot.type == 'movement'" src="../../assets/img/icons/movement.png"
+                    <img v-else-if="iot.type == 'movement'" src="../../../assets/img/icons/movement.png"
                       class="avatar avatar-sm me-3" alt="user1" />
-                    <img v-else-if="iot.type == 'door'" src="../../assets/img/icons/door.png"
+                    <img v-else-if="iot.type == 'door'" src="../../../assets/img/icons/door.png"
                       class="avatar avatar-sm me-3" alt="user1" />
-                    <img v-else src="../../assets/img/icons/iot.png" class="avatar avatar-sm me-3" alt="user1" />
+                    <img v-else src="../../../assets/img/icons/iot.png" class="avatar avatar-sm me-3" alt="user1" />
                   </div>
                   <div class="d-flex flex-column justify-content-center">
                     <h6 class="mb-0 text-sm">{{ iot.name }}</h6>
@@ -85,19 +92,23 @@
     </div>
   </div>
   <Teleport to="body">
-      <!-- use the modal component, pass in the prop -->
-      <iot-modal :show="isModalVisible" :iot="selectedIot" @close="isModalVisible = false"></iot-modal>
-    </Teleport>
+    <iot-modal :show="isModalVisible" :iot="selectedIot" @close="isModalVisible = false"></iot-modal>
+  </Teleport>
+  <Teleport to="body">
+    <instructions-table :show="isInstructionsVisible" @close="isInstructionsVisible = false"></instructions-table>
+  </Teleport>
 </template>
 
 <script>
-import IotService from '../../services/IotService.js';
+import IotService from '../../../services/IotService.js';
 import IotModal from './IotModal.vue';
+import InstructionsTable from './InstructionsTable.vue';
 
 export default {
   name: "iots-table",
   components: {
-    IotModal
+    IotModal,
+    InstructionsTable
   },
   async mounted() {
     const iots = JSON.parse(localStorage.getItem("iots"))
@@ -111,8 +122,9 @@ export default {
     return {
       selectedIot: null,
       isModalVisible: false,
-      iotsList: [],
+      isInstructionsVisible: false,
       showMore: false,
+      iotsList: [],
       initialLimit: 5
     }
   },
@@ -122,16 +134,11 @@ export default {
     }
   },
   methods: {
-    showIotModal(iot) {
-      this.selectedIot = iot
-      this.isModalVisible = true;
-    },
     async loadIotsList() {
       var response = await IotService.getIots(localStorage.getItem("uri"))
       let list = []
       for(var i = 0; i< response.length; i++){
         if (response[i]['connectionmode']=='local'){
-          console.log(response[i])
           list.push(response[i])
         }
       }
@@ -144,6 +151,13 @@ export default {
       }
       this.iotsList = list
       localStorage.setItem("iots", JSON.stringify(this.iotsList))
+    },
+    showIotModal(iot) {
+      this.selectedIot = iot
+      this.isModalVisible = true;
+    },
+    showInstructions() {
+      this.isInstructionsVisible = true;
     },
     toggleShowMore() {
       this.showMore = !this.showMore;

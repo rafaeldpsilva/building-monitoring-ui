@@ -7,6 +7,11 @@
     </div>
     <div class="row mb-4">
       <div class="col-12">
+        <instructions-table />
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-12">
         <shared-iots-table />
       </div>
     </div>
@@ -14,14 +19,17 @@
 </template>
 
 <script>
-import IotsTable from "./components/IotsTable.vue";
-import SharedIotsTable from "./components/SharedIotsTable.vue";
+import IotsTable from "./components/IoT/IotsTable.vue";
+import SharedIotsTable from "./components/IoT/SharedIotsTable.vue";
+import InstructionsTable from "./components/IoT/InstructionsTable.vue";
+
 
 export default {
   name: "iots",
   components: {
     IotsTable,
-    SharedIotsTable
+    SharedIotsTable,
+    InstructionsTable
   },
   data() {
     return {

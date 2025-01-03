@@ -5,6 +5,8 @@ const PriceService = {
     selfconsumption: 'energy/selfconsumption',
     co2_with_p2p: "energy/co2/p2p",
     co2_without_p2p: "energy/co2",
+    benefits_monthly: "benefits/monthly",
+    benefits_detailed: "benefits/detailed",
   async get_energy_from_retailer(url) {
     const path = url + this.retailer
     try {
@@ -37,6 +39,24 @@ const PriceService = {
     try {
       const response = await axios.get(path);
       return response.data.co2
+    } catch (error) {
+      console.error(error);
+    };
+  },
+  async get_last_month_benefits(url) {
+    const path = url + this.benefits_monthly
+    try {
+      const response = await axios.get(path);
+      return response.data
+    } catch (error) {
+      console.error(error);
+    };
+  },
+  async getTransactions(url) {
+    const path = url + this.benefits_detailed
+    try {
+      const response = await axios.get(path);
+      return response.data.benefits
     } catch (error) {
       console.error(error);
     };
