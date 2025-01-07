@@ -3,42 +3,50 @@
         <div v-if="show" class="modal-mask" @keydown.esc="$emit('close')">
             <div class="modal-container">
                 <div class="modal-header">
-                    <h6 name="header"><i class="fas fa-network-wired"></i> Instructions Table</h6>
+                    <div class="d-flex justify-content-between w-100">
+                        <h6 name="header"><i class="fas fa-network-wired"></i> Instructions Table</h6>
+                        <button class="btn btn-transparent align-self-start" type="button" aria-haspopup="true"
+                            aria-expanded="false" @click="$emit('close')">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="modal-body">
-                    <div class="card-body px-0 pt-0 pb-2">
-                        <div class="table-responsive p-0">
-                            
-                            <table class="table participation-table">
-                                <thead>
-                                    <tr>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">IoT Device</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2" v-for="hour in hours" :key="hour">{{ hour }}:00</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="device in iotsList" :key="device.name">
-                                        <td>{{ device.name }}</td>
-                                        <td
-                                        v-for="hour in hours"
-                                        :key="hour"
-                                        :class="getCellClass(device.name, hour)"
-                                        @click="toggleState(device.name, hour)"
-                                        title="Click to toggle state"
-                                        >
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div class="legend">
-                                <span class="legend-item participation ms-5">Participation</span>
-                                <span class="legend-item no-participation">No Participation</span>
-                                <span class="legend-item shifting">Shifting</span>
+                    <div class="card mb-4" style="position: relative;">
+                        <div class="card-body px-0 pt-0 pb-2">
+                            <div class="table-responsive p-0">
+                                
+                                <table class="table participation-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">IoT Device</th>
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2" v-for="hour in hours" :key="hour">{{ hour }}:00</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="device in iotsList" :key="device.name">
+                                            <td>{{ device.name }}</td>
+                                            <td
+                                            v-for="hour in hours"
+                                            :key="hour"
+                                            :class="getCellClass(device.name, hour)"
+                                            @click="toggleState(device.name, hour)"
+                                            title="Click to toggle state"
+                                            >
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="legend">
+                                    <span class="legend-item participation ms-5">Participation</span>
+                                    <span class="legend-item no-participation">No Participation</span>
+                                    <span class="legend-item shifting">Shifting</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="text-center">
-                            <argon-button class="m-2" variant="gradient" color="success" size="sm" @click="save()">Save</argon-button>
+                            <div class="text-center">
+                                <argon-button class="m-2" variant="gradient" color="success" size="sm" @click="save()">Save</argon-button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -203,11 +211,16 @@ color: #000000;
   margin-top: 0;
   color: #42b983;
 }
-
 .modal-body {
-  margin: 20px 0;
+    padding: 20px 0px;
+    overflow-y: auto; /* Enable vertical scrolling if content overflows */
+    flex-grow: 1; /* Allow the body to grow and take up space */
 }
-
+.table-responsive {
+    max-height: 300px; /* Set a maximum height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: auto; /* Enable horizontal scrolling if needed */
+}
 .modal-default-button {
   float: right;
 }
