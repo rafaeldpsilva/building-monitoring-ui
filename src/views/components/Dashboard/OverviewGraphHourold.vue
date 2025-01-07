@@ -61,16 +61,8 @@ export default defineComponent({
         }
       }
     }
-    
-    const overview = JSON.parse(localStorage.getItem("overview"))
-    if (overview.length != 4 || this.nowHour != overview[0][23]) {
-      await this.loadBuildingOverview();
-    } else {
-      //this.option.xAxis.data = overview[0].slice(6);
-      this.option.series[0].data = overview[1].slice(6);
-      this.option.series[1].data = overview[2].slice(6);
-      this.option.series[2].data = overview[3].slice(6);
-    }
+  
+    await this.loadBuildingOverview();
     let i = 0;
     while (i < 6) {
       //this.option.xAxis.data.push(this.nowHour + i +1)
@@ -80,15 +72,7 @@ export default defineComponent({
       i++;
     }
     
-    const forecast = JSON.parse(localStorage.getItem("forecast-overview"))
-    if (forecast.length != 4) {
-      await this.loadBuildingForecast(this.nowHour);
-    } else {
-      this.option.series[3].data = forecast[1];
-      this.option.series[4].data = forecast[2];
-      this.option.series[5].data = forecast[3];
-      this.loading = false;
-    }
+    await this.loadBuildingForecast(this.nowHour);
     this.option.xAxis.axisPointer.value = this.nowHour.toString();
   },
   methods: {
@@ -132,7 +116,6 @@ export default defineComponent({
         }
         this.option.series[4].data = generation;
       });
-      localStorage.setItem("forecast-overview", JSON.stringify([hours, consumption, generation, flexibility]))
       this.loading = false;
     },
     async loadBuildingOverview() {
@@ -152,11 +135,9 @@ export default defineComponent({
         }
         this.loading = false;
         //this.option.xAxis.data = hours.slice(5);
-        console.log(hours)
-        this.option.series[0].data = consumption.slice(6);
-        this.option.series[1].data = generation.slice(6);
-        this.option.series[2].data = flexibility.slice(6);
-        localStorage.setItem("overview", JSON.stringify([hours, consumption, generation, flexibility]))
+        this.option.series[0].data = consumption.slice(5);
+        this.option.series[1].data = generation.slice(5);
+        this.option.series[2].data = flexibility.slice(5);
       });
 
     },

@@ -28,7 +28,7 @@
             <div class="d-flex align-items-center text-dark text-gradient text-sm font-weight-bold">{{invite.load_kwh}} Wh</div>
             <div class="d-flex align-items-center justify-content-center">
               <argon-button
-                @click="acceptInvite(index, invite.event_time)"
+                @click="acceptInvite(index, invite.event_time, invite.iots)"
                 color="success"
                 variant="outline"
                 size="sm"
@@ -36,7 +36,7 @@
                 <i class="fas fa-check" aria-hidden="true"></i>
               </argon-button>
               <argon-button
-                @click="declineInvite(index, invite.event_time)"
+                @click="declineInvite(index, invite.event_time, invite.iots)"
                 color="danger"
                 variant="outline"
                 size="sm"
@@ -88,16 +88,16 @@
       async autoAcceptChange() {
           await DemandResponseService.postAutoAccept(localStorage.getItem("uri"), !this.auto);
       },
-      async acceptInvite(index, event_time) {
+      async acceptInvite(index, event_time, iot) {
         let invite = this.pendingInvitationsList.at(index)
         this.answeredInvitationsList.unshift({"iots": invite.iots, "event_time": invite.event_time, "load_kwh": invite.load_kwh, "load_percentage": invite.load_percentage, "response": "YES"})
-        await DemandResponseService.postAnsweredInvitation(localStorage.getItem("uri"), event_time, "YES");
+        await DemandResponseService.postAnsweredInvitation(localStorage.getItem("uri"), event_time, iot, "YES");
         this.pendingInvitationsList.splice(index, 1)
       },
-      async declineInvite(index, event_time) {
+      async declineInvite(index, event_time, iot) {
         let invite = this.pendingInvitationsList.at(index)
         this.answeredInvitationsList.unshift({"iots": invite.iots, "event_time": invite.event_time, "load_kwh": invite.load_kwh, "load_percentage": invite.load_percentage, "response": "NO"})
-        await DemandResponseService.postAnsweredInvitation(localStorage.getItem("uri"), event_time, "NO");
+        await DemandResponseService.postAnsweredInvitation(localStorage.getItem("uri"), event_time, iot, "NO");
         this.pendingInvitationsList.splice(index, 1)
       },
       async loadAutoAnswer (){

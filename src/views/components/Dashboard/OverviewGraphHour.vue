@@ -56,13 +56,15 @@ export default defineComponent({
 
         var startDay = new Date();
         startDay.setHours(0, 0, 0, 0);
-        console.log(historic)
+        console.log("historic",historic)
         let i = 0;
         while (i < historic.length) {
           var date = new Date(historic[i][0]);
+          console.log(date)
           if(date > startDay){
             var hour = date.getUTCHours()
             hours.push(hour);
+            console.log(hour)
             consumption.push(historic[i][1].toFixed(2));
             generation.push(historic[i][2].toFixed(2));
             flexibility.push(historic[i][3].toFixed(2));

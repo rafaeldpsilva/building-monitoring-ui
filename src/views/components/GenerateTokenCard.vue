@@ -110,7 +110,7 @@ export default {
       
     },
     async generateToken () {
-      this.token = await TokenService.postGenerateToken(localStorage.getItem("uri"), this.name, this.resources_selected, this.data_selected, this.time_selected, this.embargo, this.date)
+      this.token = await TokenService.postGenerateToken(localStorage.getItem("uri"), this.name, this.resources_selected, this.data_selected, this.time_selected, this.embargo, 991231)
     },
     async saveToken() {    
       let response = await TokenService.postSaveToken(localStorage.getItem("uri"), this.name, this.resources_selected, this.data_selected, this.time_selected, this.embargo, this.date)

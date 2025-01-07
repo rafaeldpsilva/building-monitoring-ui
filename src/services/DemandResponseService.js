@@ -25,9 +25,10 @@ const DemandResponseService = {
       console.error(error);
     };
   },
-  async postAnsweredInvitation(url, event_time, response) {
+  async postAnsweredInvitation(url, event_time, iot, response) {
     let payload = {
         "event_time": event_time,
+        "iot": iot,
         "response": response
     }
     const path = url+this.answer_invitation
