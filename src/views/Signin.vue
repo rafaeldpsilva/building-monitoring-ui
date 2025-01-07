@@ -63,10 +63,10 @@
                 <span class="mask bg-gradient-success opacity-6"></span>
                 <h1
                   class="mt-5 text-white font-weight-bolder position-relative"
-                >TIoCPS</h1>
+                >Caravels</h1>
                 <p
                   class="text-white position-relative"
-                >Trustworthy and Smart Communities of Cyber-Physical Systems</p>
+                >Intelligent Communities of Cyber-Physical Systems</p>
               </div>
             </div>
           </div>
