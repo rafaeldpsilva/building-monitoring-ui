@@ -82,7 +82,7 @@ export default defineComponent({
   setup() {
     const option = ref({
   legend: {
-    data: ['Retailer', 'Self-Consumption', 'P2P', 'Balance'],
+    data: ['Retailer', 'Self-Consumption', 'P2P'],
     left: '10%'
   },
   tooltip: {
@@ -90,13 +90,13 @@ export default defineComponent({
   },
   xAxis: {
     data: [0],
-    name: 'Hours',
+    name: 'Hours (h)',
     axisLine: { onZero: true },
     splitLine: { show: false },
     splitArea: { show: false }
   },
   yAxis: {
-    name: 'W',
+    name: 'Energy (Wh)',
     nameLocation: 'middle',
     nameTextStyle:{
       padding: [0, 0, 35, 0]

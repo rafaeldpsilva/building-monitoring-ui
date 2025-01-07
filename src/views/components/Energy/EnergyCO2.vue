@@ -96,7 +96,7 @@ export default defineComponent({
     splitArea: { show: false }
   },
   yAxis: {
-    name: 'g / W',
+    name: 'CO2 (g / Wh)',
     nameLocation: 'middle',
     nameTextStyle:{
       padding: [0, 0, 35, 0]

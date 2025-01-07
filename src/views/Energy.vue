@@ -3,8 +3,15 @@
     <div class="row mb-4">
       <div class="col-lg-12">
         <div class="row">
+          <div class="col-lg-3 mb-lg">
+            <div class="card z-index-2">
+                <transactions-list />
+            </div>
+          </div>
           <div class="col-xl-4 mb-xl-0 mb-4">
-            <last-month-benefits />
+            <div class="card z-index-2">
+              <last-month-benefits />
+            </div>
           </div>
           <div class="col-lg-5 mb-lg">
             <div class="card z-index-2">
@@ -21,22 +28,12 @@
             <div class="card z-index-2 mb-4">
               <EnergyCO2 />
             </div>
-            <div class="card z-index-2">
-              <transactions-list />
-            </div>
           </div>
           <div class="col-lg-6 mb-lg">
             <div class="card z-index-2">
               <price-definition />
             </div>
           </div>  
-        </div>
-      </div>
-    </div>
-    <div class="row mb-4">
-      <div class="col-lg-12">
-        <div class="row">
-          
         </div>
       </div>
     </div>

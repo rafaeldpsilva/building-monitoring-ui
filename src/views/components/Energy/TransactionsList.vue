@@ -1,11 +1,11 @@
 <template>
     <div class="card">
       <div class="card-header pb-0 px-3">
-        <h6 class="mb-0">Transactions List</h6>
+        <h6 class="mb-0">Transactions</h6>
       </div>
       <div class="card-body pt-4 p-3">
         <ul class="list-group">
-          <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg" v-for="transaction in transactionsList" :key="transaction.datetime">
+          <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg" v-for="transaction in transactionsList.slice(0,3)" :key="transaction.datetime">
             <div class="d-flex flex-column">
               <h6 class="mb-3 text-sm">{{transaction.product}}</h6>
               <span class="mb-2 text-xs">

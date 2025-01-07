@@ -61,7 +61,7 @@ export default {
         consumption: {
           title: "Consumption",
           value: "",
-          iconClass: "fa fa-flash",
+          iconClass: "fa fa-bolt",
           iconBackground: "bg-gradient-primary",
         },
         generation: {

@@ -14,51 +14,16 @@
               </div>
             </div>
             <div class="card-body">
-              <p class="text-uppercase text-sm">User Information</p>
-              <div class="row">
-                <div class="col-md-6">
-                  <label for="example-text-input" class="form-control-label">Username</label>
-                  <input class="form-control"  type="text" value="" />
-                </div>
-                <div class="col-md-6">
-                  <label for="example-text-input" class="form-control-label">Email address</label>
-                  <input class="form-control"  type="email" value="" />
-                </div>
-                <div class="col-md-6">
-                  <label for="example-text-input" class="form-control-label">First name</label>
-                  <input class="form-control" type="text" value="" />
-                </div>
-                <div class="col-md-6">
-                  <label for="example-text-input" class="form-control-label">Last name</label>
-                  <input class="form-control"  type="text" value="" />
-                </div>
-              </div>
-              <hr class="horizontal dark" />
-              <p class="text-uppercase text-sm">Contact Information</p>
               <div class="row">
                 <div class="col-md-12">
-                  <label for="example-text-input" class="form-control-label">Address</label>
-                  <input class="form-control"  type="text" value=""/>
-                </div>
-                <div class="col-md-4">
-                  <label for="example-text-input" class="form-control-label">City</label>
-                  <input class="form-control"  type="text" value="" />
-                </div>
-                <div class="col-md-4">
-                  <label for="example-text-input" class="form-control-label">Country</label>
-                  <input class="form-control"  type="text" value="" />
-                </div>
-                <div class="col-md-4">
-                  <label for="example-text-input" class="form-control-label">Postal code</label>
-                  <input class="form-control"  type="text" value="" />
-                </div>
-              </div>
-              <hr class="horizontal dark" />
-              <p class="text-uppercase text-sm">About me</p>
-              <div class="row">
-                <div class="col-md-12">
-                  <label for="example-text-input" class="form-control-label">About me</label>
-                  <input class="form-control"  type="text" value=""/>
+                  <label for="json-input" class="form-control-label">Configuration</label>
+                  <textarea
+                    id="json-input"
+                    class="form-control"
+                    rows="10"
+                    v-model="jsonData"
+                    placeholder='{"username": "JohnDoe", "email": "john@example.com"}'
+                  ></textarea>
                 </div>
               </div>
             </div>
@@ -81,8 +46,29 @@ export default {
   name: "profile",
   data() {
     return {
-      showMenu: false
+      showMenu: false,
+      jsonData: `{
+  "username": "",
+  "email": "",
+  "firstName": "",
+  "lastName": "",
+  "address": "",
+  "city": "",
+  "country": "",
+  "postalCode": "",
+  "aboutMe": ""
+}`
     };
+  },
+  methods: {
+    validateJSON() {
+      try {
+        JSON.parse(this.jsonData);
+        alert("Valid JSON!");
+      } catch (e) {
+        alert("Invalid JSON!");
+      }
+    }
   },
   components: { ProfileCard, ArgonButton },
 

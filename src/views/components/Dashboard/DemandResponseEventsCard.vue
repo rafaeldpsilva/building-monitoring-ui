@@ -25,7 +25,7 @@
                 <span class="text-xs">{{invite.event_time}}</span>
               </div>
             </div>
-            <div class="d-flex align-items-center text-dark text-gradient text-sm font-weight-bold">{{invite.load_kwh}} wh</div>
+            <div class="d-flex align-items-center text-dark text-gradient text-sm font-weight-bold">{{invite.load_kwh}} Wh</div>
             <div class="d-flex align-items-center justify-content-center">
               <argon-button
                 @click="acceptInvite(index, invite.event_time)"
