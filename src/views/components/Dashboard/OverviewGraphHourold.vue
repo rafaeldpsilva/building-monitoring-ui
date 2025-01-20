@@ -135,9 +135,9 @@ export default defineComponent({
         }
         this.loading = false;
         //this.option.xAxis.data = hours.slice(5);
-        this.option.series[0].data = consumption.slice(5);
-        this.option.series[1].data = generation.slice(5);
-        this.option.series[2].data = flexibility.slice(5);
+        this.option.series[0].data = consumption.slice(6);
+        this.option.series[1].data = generation.slice(6);
+        this.option.series[2].data = flexibility.slice(6);
       });
 
     },

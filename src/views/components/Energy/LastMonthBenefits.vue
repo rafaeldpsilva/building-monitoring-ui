@@ -55,7 +55,6 @@
       async getLastMonthBenefits(){
         this.option.series[0].data = [{ value: 0, name: 'Retailer'},{ value: 0, name: 'Demand Response' },{ value: 0, name: 'P2P' }]
         await EnergyService.get_last_month_benefits(localStorage.getItem("uri")).then(benefits => {
-          console.log(benefits)
           this.option.series[0].data = [{ value: benefits['retailer'], name: 'Retailer'},{ value: benefits['dr'], name: 'Demand Response' },{ value: benefits['p2p'], name: 'P2P' }]
         });
       }
@@ -64,6 +63,7 @@
       const option = ref({
         tooltip: {
           trigger: 'item',
+          valueFormatter: (value) => value + "€"
         },
         legend: {
           left: 'center',
